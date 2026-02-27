@@ -16,6 +16,9 @@ img{
 button{
     margin:1rem 0;
 }
+a{
+    cursor: pointer;
+}
 .contenedor{
     max-width: 1200px;
     margin:0 auto;
