@@ -12,6 +12,6 @@ export const routes: Routes = [
     {path:'contacto',component:Contacto},
     {path:'registro',component:Registro},
     {path:'login',component:Login},
-    {path:'confirmar',component:Confirmar},
+    {path:'confirmar/:token',component:Confirmar},
     {path:'**',component:C404}
 ];

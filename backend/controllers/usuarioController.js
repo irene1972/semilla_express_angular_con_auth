@@ -2,7 +2,7 @@ import email from '../helpers/email.js';
 import { User } from '../models/User.js';
 import enviarEmail from '../helpers/email.js';
 import { encriptarPassword } from '../helpers/password.js';
-import { crearToken } from '../helpers/token.js';
+import { crearToken, decodificarToken } from '../helpers/token.js';
 
 const getUsers=async(req,res)=>{
     try {
@@ -80,9 +80,39 @@ const crearUsuario = async (req, res) => {
     }
 }
 
+const confirmar = async (req, res) => {
+
+    const { token } = req.body;
+
+    //try {
+
+        const decodedToken = await decodificarToken(token, process.env.JWT_SECRET);
+
+        if (decodedToken === 'error') {
+            return res.status(500).json({ error: 'Token no válido' });
+        }
+
+        if (decodedToken.user) {
+            const email = decodedToken.user;
+
+            const usuario = new User();
+            const resultado = await usuario.confirm(email);
+
+            if (resultado[0].affectedRows === 1) {
+                res.json({ mensaje: 'Usuario confirmado con éxito' });
+            } else {
+                return res.status(500).json({ error: 'Ha habido un error al confirmar' });
+            }
+        }
+    //} catch (error) {
+        //return res.status(500).json({ error: 'Ha habido un error al confirmar' });
+    //}
+
+}
+
 export {
     getUsers,
     envioEmail,
-    crearUsuario
-    
+    crearUsuario,
+    confirmar
 }
