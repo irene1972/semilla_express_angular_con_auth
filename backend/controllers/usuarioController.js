@@ -1,40 +1,40 @@
 import email from '../helpers/email.js';
 import { User } from '../models/User.js';
 import enviarEmail from '../helpers/email.js';
-import { encriptarPassword } from '../helpers/password.js';
+import { encriptarPassword, matchPassword } from '../helpers/password.js';
 import { crearToken, decodificarToken } from '../helpers/token.js';
 
-const getUsers=async(req,res)=>{
+const getUsers = async (req, res) => {
     try {
-        const usuario=new User();
-        const resultado=await usuario.getAll();
+        const usuario = new User();
+        const resultado = await usuario.getAll();
         //const resultado=await pool.query('SELECT * FROM usuarios');
-        if(resultado[0]){
+        if (resultado[0]) {
             res.json(resultado[0]);
-        }else{
-            return res.status(500).json({error:'Ha habido un error al consultar la base de datos'});
+        } else {
+            return res.status(500).json({ error: 'Ha habido un error al consultar la base de datos' });
         }
     } catch (error) {
-        return res.status(500).json({error:'Ha habido un error al consultar los datos'});
+        return res.status(500).json({ error: 'Ha habido un error al consultar los datos' });
     }
-    
+
 }
 
-const envioEmail=async (req, res) => {
+const envioEmail = async (req, res) => {
     //res.json('Funciona!');
 
     try {
         //envio del email
         email({
-            email:'ireneog_72@hotmail.es',
+            email: 'ireneog_72@hotmail.es',
             nombre: 'Irene Olmos'
         });
 
-        res.json({mensaje:`El email se ha enviado correctamente`});
+        res.json({ mensaje: `El email se ha enviado correctamente` });
 
     } catch (error) {
         console.log(error);
-        return res.status(400).json({error:'Ha habido un error'});
+        return res.status(400).json({ error: 'Ha habido un error' });
     }
 }
 
@@ -84,7 +84,7 @@ const confirmar = async (req, res) => {
 
     const { token } = req.body;
 
-    //try {
+    try {
 
         const decodedToken = await decodificarToken(token, process.env.JWT_SECRET);
 
@@ -104,15 +104,47 @@ const confirmar = async (req, res) => {
                 return res.status(500).json({ error: 'Ha habido un error al confirmar' });
             }
         }
-    //} catch (error) {
-        //return res.status(500).json({ error: 'Ha habido un error al confirmar' });
-    //}
+    } catch (error) {
+        return res.status(500).json({ error: 'Ha habido un error al confirmar' });
+    }
 
+}
+
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Los dos campos son obligatorios' });
+    }
+
+    try {
+        const usuario = new User();
+
+        const resultado = await usuario.getByEmail(email);
+
+        if (resultado[0].length === 0) {
+            return res.status(500).json({ error: 'El usuario no está registrado' });
+        }
+        const usuarioEncontrado = resultado[0][0];
+
+        const matched = await matchPassword(password, usuarioEncontrado.password);
+
+        if (matched && usuarioEncontrado.confirmado === 1) {
+            //res.json({ mensaje: 'Usuario logueado correctamente' });
+            res.json(usuarioEncontrado);
+        } else {
+            return res.status(400).json({ error: 'El usuario o el password son incorrectos, o el usuario no ha confirmado su cuenta' });
+        }
+
+    } catch (error) {
+        return res.status(500).json({ error: 'Ha habido un error al consultar los datos' });
+    }
 }
 
 export {
     getUsers,
     envioEmail,
     crearUsuario,
-    confirmar
+    confirmar,
+    loginUser
 }
