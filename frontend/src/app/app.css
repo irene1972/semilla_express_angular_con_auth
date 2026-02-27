@@ -1,0 +1,14 @@
+header{
+    background-color: black;
+    color:white;
+    padding: 2rem 0;
+}
+footer{
+    background-color: black;
+    color:white;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    padding-top: 1rem;
+}

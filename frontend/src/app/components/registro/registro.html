@@ -1,0 +1,45 @@
+<section>
+    <h1>Registro de usuarios</h1>
+    <div [class.text-danger]="tipo===false" [class.text-success]="tipo===true">{{mensaje}}</div>
+    <form [formGroup]="miForm" (ngSubmit)="cargarDatos()">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre">
+            @if(nombre?.touched && nombre?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(nombre?.touched && nombre?.hasError('minlength')){
+            <div class="text-danger">El nombre debe tener al menos 3 carácteres</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" class="form-control" formControlName="apellidos">
+            @if(apellidos?.touched && apellidos?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(apellidos?.touched && apellidos?.hasError('minlength')){
+            <div class="text-danger">Los Apellidos deben tener al menos 3 carácteres</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+            @if(email?.touched && email?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(email?.touched && email?.hasError('pattern')){
+            <div class="text-danger">El email no es válido</div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" formControlName="password">
+            @if(password?.touched && password?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(password?.touched && password?.hasError('minlength')){
+            <div class="text-danger">El campo debe tener al menos 8 carácteres</div>
+            }
+        </div>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+        <!--<div class="login">Si aún no está registrado puede hacerlo en este link <a [routerLink]="['/registro']" routerLinkActive="activo">Registrarse</a></div>-->
+    </form>
+</section>
