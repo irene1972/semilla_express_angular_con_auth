@@ -16,11 +16,15 @@ export class Registro {
 
   constructor(private cd: ChangeDetectorRef, private router: Router) {
     this.miForm = new FormGroup({
+      nick: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
       nombre: new FormControl('', [
         Validators.required,
         Validators.minLength(3)
       ]),
-      apellidos: new FormControl('', [
+      apellido: new FormControl('', [
         Validators.required,
         Validators.minLength(3)
       ]),
@@ -31,15 +35,23 @@ export class Registro {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8)
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8)
       ])
     }, []);
+  }
+
+  get nick() {
+    return this.miForm.get('nick');
   }
 
   get nombre() {
     return this.miForm.get('nombre');
   }
 
-  get apellidos() {
+  get apellido() {
     return this.miForm.get('apellidos');
   }
 
@@ -51,6 +63,10 @@ export class Registro {
     return this.miForm.get('password');
   }
 
+  get confirmPassword() {
+    return this.miForm.get('confirmPassword');
+  }
+
   async cargarDatos() {
     if (!this.miForm.valid) {
       this.miForm.markAllAsTouched();
@@ -58,7 +74,7 @@ export class Registro {
     }
     console.log(this.miForm.value);
 
-    await fetch(`${environment.apiUrl}/usuarios/crear`, {
+    await fetch(`${environment.apiUrl}/usuarios/registrar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
@@ -78,7 +94,7 @@ export class Registro {
         this.router.navigate(['/login'], {
           queryParams: { code: 1 }
         });
-        
+
       })
       .catch(error => console.log(error))
       .finally(() => {

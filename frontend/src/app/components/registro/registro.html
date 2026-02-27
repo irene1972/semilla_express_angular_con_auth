@@ -3,6 +3,15 @@
     <div [class.text-danger]="tipo===false" [class.text-success]="tipo===true">{{mensaje}}</div>
     <form [formGroup]="miForm" (ngSubmit)="cargarDatos()">
         <div class="form-group">
+            <label for="nick">Nick</label>
+            <input type="text" id="nick" class="form-control" formControlName="nick">
+            @if(nick?.touched && nick?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(nick?.touched && nick?.hasError('minlength')){
+            <div class="text-danger">El nick debe tener al menos 3 carácteres</div>
+            }
+        </div>
+        <div class="form-group">
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" class="form-control" formControlName="nombre">
             @if(nombre?.touched && nombre?.hasError('required')){
@@ -12,11 +21,11 @@
             }
         </div>
         <div class="form-group">
-            <label for="apellidos">Apellidos</label>
-            <input type="text" id="apellidos" class="form-control" formControlName="apellidos">
-            @if(apellidos?.touched && apellidos?.hasError('required')){
+            <label for="apellido">Apellidos</label>
+            <input type="text" id="apellido" class="form-control" formControlName="apellido">
+            @if(apellido?.touched && apellido?.hasError('required')){
             <div class="text-danger">El campo es requerido</div>
-            }@else if(apellidos?.touched && apellidos?.hasError('minlength')){
+            }@else if(apellido?.touched && apellido?.hasError('minlength')){
             <div class="text-danger">Los Apellidos deben tener al menos 3 carácteres</div>
             }
         </div>
@@ -36,6 +45,15 @@
             @if(password?.touched && password?.hasError('required')){
             <div class="text-danger">El campo es requerido</div>
             }@else if(password?.touched && password?.hasError('minlength')){
+            <div class="text-danger">El campo debe tener al menos 8 carácteres</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Repite Password</label>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword">
+            @if(confirmPassword?.touched && confirmPassword?.hasError('required')){
+            <div class="text-danger">El campo es requerido</div>
+            }@else if(confirmPassword?.touched && confirmPassword?.hasError('minlength')){
             <div class="text-danger">El campo debe tener al menos 8 carácteres</div>
             }
         </div>
