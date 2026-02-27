@@ -4,6 +4,7 @@ import { Contacto } from './components/contacto/contacto';
 import { C404 } from './components/c404/c404';
 import { Registro } from './components/registro/registro';
 import { Login } from './components/login/login';
+import { Confirmar } from './components/confirmar/confirmar';
 
 export const routes: Routes = [
     {path:'',pathMatch:'full',redirectTo:'home'},
@@ -11,5 +12,6 @@ export const routes: Routes = [
     {path:'contacto',component:Contacto},
     {path:'registro',component:Registro},
     {path:'login',component:Login},
+    {path:'confirmar',component:Confirmar},
     {path:'**',component:C404}
 ];
