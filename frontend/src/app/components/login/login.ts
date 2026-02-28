@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { returnText } from '../../shared/utils/funciones';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class Login {
       //console.log(code);
       switch (code) {
         case "1":
-          this.mensaje = 'Se ha enviado un mensaje de confirmación a su correo electrónico. Por favor confirme en el enlace';
+          this.mensaje = returnText(code);
           this.tipo = true;
           this.cd.detectChanges();
           break;

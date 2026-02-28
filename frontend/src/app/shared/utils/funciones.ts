@@ -20,3 +20,11 @@ export function isLogged() {
     else return false;
   }
 }
+
+export function returnText(code:string){
+  switch(code){
+    case '1': return "Se ha enviado un mensaje de confirmación a su correo electrónico. Por favor confirme en el enlace";
+    //case 2: return "";
+    default: return "";
+  }
+}

@@ -23,6 +23,13 @@ a{
     max-width: 1200px;
     margin:0 auto;
 }
+.text-danger{
+    color:red;
+}
+.text-success{
+    background-color: green;
+    color:white !important;
+}
 @media(max-width:600px){
     section.contenedor-flex{
         flex-direction: column;
